@@ -1,11 +1,12 @@
 
 <p align="center">
     <img src="https://user-images.githubusercontent.com/7833164/86766972-44d8dd80-c019-11ea-91a6-e893095a41a7.png" height="200" weight="200"></img>
-    </br></br>CORE
 </p>
 
-# HQ-Core
-  A Rusty RESTful Database 
+[![Build Status](https://travis-ci.com/Project-HQ/HQ-Core.svg?branch=master)](https://travis-ci.com/Project-HQ/HQ-Core)
+# HQ-Core 
+
+  A Rusty RESTful Postgres Microservice 
   
 **THIS IS A WORK IN PROGRESS**
 
@@ -24,7 +25,5 @@ If you've come across this repo, feel free to reach out and ask about the projec
 ## Dockerize It
 
 [Tutorial Here](https://blog.semicolonsoftware.de/building-minimal-docker-containers-for-rust-applications/)
-
-Basically, you want to use rust-musl-builder to create a lightweight container with no dependencies. 
-
-Once the image is built, run it like so: `docker run --env-file=./path/to/.env --rm --name hq-core -p 8080:8080 hq-core`
+You will want to use rust-musl-builder to create a lightweight image with no dependencies. Once the image is built, run it like so:
+`docker run --env-file=./path/to/.env --rm --name hq-core -p 8080:8080 hq-core`
