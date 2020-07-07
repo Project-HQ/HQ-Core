@@ -1,8 +1,20 @@
 [package]
 name = "hq-core"
+description = "Restful Postgres microservice"
 version = "0.1.0"
 authors = ["Project_HQ <amusciano@gmail.com>"]
+license = "MIT"
+license-file = "LICENSE"
 edition = "2018"
+readme = "README.md"
+homepage = "projecthq.ml"
+repository = "https://github.com/Project-HQ/HQ-Core/"
+keywords = ["postgresql","database","microservice","HQ","wrapper","REST","actix","server"]
+categories = ["database","data-structures","web-programming::http-server"]
+
+[badges]
+travis-ci = { repository = "Project-HQ/HQ-Core", branch = "master"  }
+maintenance = { status = "actively-developed" }
 
 [dependencies]
 actix = "0.10.0-alpha.3"
