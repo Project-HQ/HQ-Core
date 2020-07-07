@@ -1,0 +1,4 @@
+FROM ekidd/rust-musl-builder
+ADD --chown=rust:rust . ./
+
+CMD cargo build --release
