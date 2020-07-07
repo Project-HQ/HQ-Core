@@ -19,7 +19,7 @@ If you've come across this repo, feel free to reach out and ask about the projec
 3. Get your dependencies: `cargo build`
 4. Setup the db with diesel: `diesel setup`
 5. Run any migrations (if changes were made): `diesel migration run`
-6. Server should noq be available on port 8080 over http
+6. Server should now be available on port 8080 over http
 
 ## Dockerize It
 
