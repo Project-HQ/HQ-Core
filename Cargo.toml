@@ -9,8 +9,8 @@ edition = "2018"
 readme = "README.md"
 homepage = "projecthq.ml"
 repository = "https://github.com/Project-HQ/HQ-Core/"
-keywords = ["postgresql","database","microservice","HQ","wrapper","REST","actix","server"]
-categories = ["database","data-structures","web-programming::http-server"]
+keywords = ["postgresql","database","microservice","REST"]
+categories = ["database","web-programming::http-server"]
 
 [badges]
 travis-ci = { repository = "Project-HQ/HQ-Core", branch = "master"  }
