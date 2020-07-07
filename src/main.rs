@@ -9,6 +9,7 @@ extern crate dotenv;
 extern crate serde;
 extern crate serde_json;
 extern crate futures;
+extern crate openssl;
 
 #[macro_use]
 extern crate diesel;
@@ -41,9 +42,9 @@ fn main() {
             web::resource("/").route(web::get().to(handlers::index::welcome_banner))
         )
     )
-    .bind("127.0.0.1:8080").unwrap()
+    .bind("0.0.0.0:8080").unwrap()
     .run();
 
-    println!("Started http server: http://127.0.0.1:8080");
+    println!("Started http server: http://0.0.0.0:8080");
     let _ = sys.run();
 }

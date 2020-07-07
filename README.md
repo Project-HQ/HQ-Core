@@ -20,3 +20,11 @@ If you've come across this repo, feel free to reach out and ask about the projec
 4. Setup the db with diesel: `diesel setup`
 5. Run any migrations (if changes were made): `diesel migration run`
 6. Server should noq be available on port 8080 over http
+
+## Dockerize It
+
+[Tutorial Here](https://blog.semicolonsoftware.de/building-minimal-docker-containers-for-rust-applications/)
+
+Basically, you want to use rust-musl-builder to create a lightweight container with no dependencies. 
+
+Once the image is built, run it like so: `docker run --env-file=./path/to/.env --rm --name hq-core -p 8080:8080 hq-core`
