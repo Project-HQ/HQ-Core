@@ -22,7 +22,11 @@ before_deploy: "./build-release hq-core ${TRAVIS_TAG}-${TRAVIS_OS_NAME}"
 deploy:
   provider: releases
   api_key:
-    secure: "..."
+    secure: VRUXC34sSE0ZV67k50tZWl6fE0ChY/QDxfRPH5nbtk7oUQoYW1+rmZPz3/mtRcfnrid17nvKzF7zXC5PoD6K5qF43titYqFPOZGyo2DimBE3N1Nb5QvqmL01A2HsXN1cCpf1eKqzrmb3NiyS2z32t59WngQKf5kG
+X6MHGaoSPCIiQQ54LRwcaNrAN4yPIrrYs3xcr35j1ZJlanvt47HRWkEB/1rMJ+N2fDUoQQP6abrvvqNxg7nIhm52ZPGkAVwGUwz5hcA9P7o4WUoIITN0UtuZEyc4m8JePIDZdqdQwWsNoJw0ZarWYyOy1IZkK90TjsDTlfuroJAe
+pk4UvkNpS/9rwOcoMmswHJbp31uhMLsBrbE6pYBDL/GjPvk/ah9ycsveBl3Kfgx/6SRC3gnYU9H1CWk8LunUBjXKBoRbqQw9iYZgZG9HqP36SIJPMTK6vvGdGkfRxl37/TmjWJMQYxXd5HLx9hQPm1OySi6d2l69cmzVon/P0g9/
+AE4dMLl2HFg+IY13pAR6kGcr0trMArtUc9gaHEOBpw0icrnS0IDi3uR98scrfJEfgrix3Vl2AmevSfg/6gYTzP9/cH7ZZkLwm2n5YTeVgg5ZLyb2vTmPqbd8/pE8hruuRzCBGl7dEVb6FVK1WmxkEWjmEMQyGA4pvbqoKltLK4WM
+S3vdP60=
   file_glob: true
   file: "hq-core-${TRAVIS_TAG}-${TRAVIS_OS_NAME}.*"
   skip_cleanup: true
