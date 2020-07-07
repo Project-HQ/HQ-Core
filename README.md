@@ -1,3 +1,9 @@
+
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/7833164/86766972-44d8dd80-c019-11ea-91a6-e893095a41a7.png" height="200" weight="200"></img>
+    </br></br>CORE
+</p>
+
 # HQ-Core
   A Rusty RESTful Database 
   
