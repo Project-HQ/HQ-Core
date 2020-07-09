@@ -10,6 +10,7 @@ extern crate serde;
 extern crate serde_json;
 extern crate futures;
 extern crate openssl;
+extern crate chrono;
 
 #[macro_use]
 extern crate diesel;
