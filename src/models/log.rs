@@ -22,6 +22,7 @@ pub struct Log {
 #[derive(Insertable, Deserialize, AsChangeset)]
 #[table_name="logs"]
 pub struct NewLog {
+    pub device_id: Option<i32>,
     pub int_data: Option<i32>,
     pub str_data: Option<String>,
     pub float_data: Option<f64>,
