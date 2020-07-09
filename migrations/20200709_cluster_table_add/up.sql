@@ -1,0 +1,8 @@
+-- Your SQL goes here
+CREATE TABLE clusters (
+  id SERIAL PRIMARY KEY,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  name VARCHAR NOT NULL,
+  description VARCHAR
+
+)

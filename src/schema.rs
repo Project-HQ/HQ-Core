@@ -1,4 +1,13 @@
 table! {
+    clusters (id) {
+        id -> Int4,
+        created_at -> Timestamptz,
+        name -> Varchar,
+        description -> Nullable<Varchar>,
+    }
+}
+
+table! {
     devices (id) {
         id -> Int4,
         name -> Varchar,
@@ -24,6 +33,7 @@ table! {
 joinable!(logs -> devices (device_id));
 
 allow_tables_to_appear_in_same_query!(
+    clusters,
     devices,
     logs,
 );
