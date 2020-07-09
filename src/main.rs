@@ -10,6 +10,7 @@ extern crate serde;
 extern crate serde_json;
 extern crate futures;
 extern crate openssl;
+extern crate chrono;
 
 #[macro_use]
 extern crate diesel;
@@ -40,6 +41,17 @@ fn main() {
         )
         .service(
             web::resource("/").route(web::get().to(handlers::index::welcome_banner))
+        )
+        .service(
+            web::resource("/logs")
+                .route(web::get().to(handlers::logs::list_logs)) // Gets a list of devices
+                .route(web::post().to(handlers::logs::add_log)) // Adds a device
+        )
+        .service(
+            web::resource("/logs/{id}")
+                .route(web::get().to(handlers::logs::get_log))
+                .route(web::delete().to(handlers::logs::destroy_log))
+                .route(web::patch().to(handlers::logs::update_log))
         )
     )
     .bind("0.0.0.0:8080").unwrap()
