@@ -1,7 +1,6 @@
 use crate::schema::clusters;
 use diesel::{PgConnection};
 use chrono::{ DateTime, Utc};
-use serde_json::Value;
 
 #[derive(Serialize, Deserialize)]
 pub struct ClusterList(pub Vec<Cluster>);

@@ -34,7 +34,7 @@ fn main() {
                 .route(web::post().to(handlers::devices::add_device)) // Adds a device
         )
         .service(
-            web::resource("/devices/{id}")
+            web::resource("/device/{id}")
                 .route(web::get().to(handlers::devices::show))
                 .route(web::delete().to(handlers::devices::destroy))
                 .route(web::patch().to(handlers::devices::update))
@@ -48,10 +48,21 @@ fn main() {
                 .route(web::post().to(handlers::logs::add_log)) // Adds a device
         )
         .service(
-            web::resource("/logs/{id}")
+            web::resource("/log/{id}")
                 .route(web::get().to(handlers::logs::get_log))
                 .route(web::delete().to(handlers::logs::destroy_log))
                 .route(web::patch().to(handlers::logs::update_log))
+        )
+        .service(
+            web::resource("/clusters")
+                .route(web::get().to(handlers::clusters::list_clusters)) // Gets a list of clusters
+                .route(web::post().to(handlers::clusters::add_cluster)) // Adds a cluster
+        )
+        .service(
+            web::resource("/cluster/{id}")
+                .route(web::get().to(handlers::clusters::get_cluster))
+                .route(web::delete().to(handlers::clusters::destroy_cluster))
+                .route(web::patch().to(handlers::clusters::update_cluster))
         )
     )
     .bind("0.0.0.0:8080").unwrap()
