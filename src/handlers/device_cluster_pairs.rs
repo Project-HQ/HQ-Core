@@ -12,45 +12,24 @@ async fn pg_pool_handler(pool: web::Data<PgPool>) -> Result<PgPooledConnection, 
     })
 }
 
-pub async fn list_device_cluster_pairs(_req: HttpRequest, pool: web::Data<PgPool>) -> Result<HttpResponse, HttpResponse> {
+pub async fn list_cluster_pairs(cluster_id: web::Path<i32>, _req: HttpRequest, pool: web::Data<PgPool>) -> Result<HttpResponse, HttpResponse> {
     let pg_pool = pg_pool_handler(pool).await?;
-    Ok(HttpResponse::Ok().json(DeviceClusterPairList::list(&pg_pool)))
+    Ok(HttpResponse::Ok().json(DeviceClusterPairList::list(&cluster_id, &pg_pool)))
 }
 
 use crate::models::device_cluster_pair::NewDeviceClusterPair;
 
-pub async fn add_device_cluster_pair(new_device_cluster_pair: web::Json<NewDeviceClusterPair>, pool: web::Data<PgPool>) -> Result<HttpResponse, HttpResponse> {
+pub async fn assign_device_to_cluster(pair: web::Path<(i32, i32)>, pool: web::Data<PgPool>) -> Result<HttpResponse, HttpResponse> {
     let pg_pool = pg_pool_handler(pool).await?;
+    let c_id: Option<i32> = serde::export::Some(pair.as_ref().0) ;
+    let d_id: Option<i32> = serde::export::Some(pair.as_ref().1) ;
+
+    let new_device_cluster_pair = NewDeviceClusterPair{
+                                    cluster_id: c_id,
+                                    device_id: d_id};
+
     new_device_cluster_pair.create(&pg_pool)
               .map(|cluster| HttpResponse::Ok().json(cluster))
               .map_err(|e| {HttpResponse::InternalServerError().json(e.to_string())})
-}
 
-use crate::models::device_cluster_pair::DeviceClusterPair;
-
-pub async fn get_device_cluster_pair(id: web::Path<i32>, pool: web::Data<PgPool>) -> Result<HttpResponse, HttpResponse> {
-    let pg_pool = pg_pool_handler(pool).await?;
-    DeviceClusterPair::find(&id, &pg_pool)
-        .map(|cluster| HttpResponse::Ok().json(cluster))
-        .map_err(|e| {
-            HttpResponse::InternalServerError().json(e.to_string())
-        })
-}
-
-pub async fn destroy_device_cluster_pair(id: web::Path<i32>, pool: web::Data<PgPool>) -> Result<HttpResponse, HttpResponse> {
-    let pg_pool = pg_pool_handler(pool).await?;
-    DeviceClusterPair::destroy(&id, &pg_pool)
-        .map(|_| HttpResponse::Ok().json(()))
-        .map_err(|e| {
-            HttpResponse::InternalServerError().json(e.to_string())
-        })
-}
-
-pub  async fn update_device_cluster_pair(id: web::Path<i32>, new_device_cluster_pair: web::Json<NewDeviceClusterPair>, pool: web::Data<PgPool>) -> Result<HttpResponse, HttpResponse> {
-    let pg_pool = pg_pool_handler(pool).await?;
-    DeviceClusterPair::update(&id, &new_device_cluster_pair, &pg_pool)
-        .map(|_| HttpResponse::Ok().json(()))
-        .map_err(|e| {
-            HttpResponse::InternalServerError().json(e.to_string())
-        })
 }

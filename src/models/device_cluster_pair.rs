@@ -1,8 +1,10 @@
 use crate::schema::device_to_cluster;
+use crate::models::device::Device;
+
 use diesel::PgConnection;
 
 #[derive(Serialize, Deserialize)]
-pub struct DeviceClusterPairList(pub Vec<DeviceClusterPair>);
+pub struct DeviceClusterPairList(pub Vec<Device>);
 
 #[derive(Queryable, Serialize, Deserialize)]
 pub struct DeviceClusterPair {
@@ -19,18 +21,24 @@ pub struct NewDeviceClusterPair {
 }
 
 impl DeviceClusterPairList {
-    pub fn list(connection: &PgConnection) -> Self {
-        use diesel::RunQueryDsl;
-        use diesel::QueryDsl;
-        use crate::schema::device_to_cluster::dsl::*;
+    pub fn list(id: &i32, connection: &PgConnection) -> Self {
+        // use diesel::RunQueryDsl;
+        // use diesel::QueryDsl;
+        // use crate::schema::device_to_cluster::dsl::*;
+        
+        // // let relationships = 
+        // //     device_to_cluster.filter(device_to_cluster::table::cluster_id.eq(id))
+        // //         .load::<DeviceClusterPair>(connection)
+        // //         .expect("Error loading devices");
 
-        let result = 
-            device_to_cluster
-                .limit(10)
-                .load::<DeviceClusterPair>(connection)
-                .expect("Error loading devices");
+        // println!("Displaying {} related device id's of cluster", results.len());
+        // for rel in relationships {
+        //     println!("{}", rel.device_id);
 
-        DeviceClusterPairList(result)
+        // }
+        // // let result = DeviceClusterPairList::new(); 
+        // // DeviceClusterPairList(result)
+        return DeviceClusterPairList(Vec::new());
     }
 }
 
@@ -52,6 +60,7 @@ impl DeviceClusterPair {
         device_to_cluster::table.find(id).first(connection)
     }
 
+
     pub fn destroy(id: &i32, connection: &PgConnection) -> Result<(), diesel::result::Error> {
         use diesel::QueryDsl;
         use diesel::RunQueryDsl;
@@ -61,15 +70,4 @@ impl DeviceClusterPair {
         Ok(())
     }
 
-    pub fn update(id: &i32, new_device_cluster_pair: &NewDeviceClusterPair, connection: &PgConnection) ->
-     Result<(), diesel::result::Error> {
-        use diesel::QueryDsl;
-        use diesel::RunQueryDsl;
-        use crate::schema::device_to_cluster::dsl;
-
-        diesel::update(dsl::device_to_cluster.find(id))
-            .set(new_device_cluster_pair)
-            .execute(connection)?;
-        Ok(())
-    }
 }

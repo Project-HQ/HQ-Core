@@ -44,8 +44,8 @@ fn main() {
         )
         .service(
             web::resource("/logs")
-                .route(web::get().to(handlers::logs::list_logs)) // Gets a list of devices
-                .route(web::post().to(handlers::logs::add_log)) // Adds a device
+                .route(web::get().to(handlers::logs::list_logs)) // Gets a list of logs
+                .route(web::post().to(handlers::logs::add_log)) // Adds a log
         )
         .service(
             web::resource("/log/{id}")
@@ -64,6 +64,12 @@ fn main() {
                 .route(web::delete().to(handlers::clusters::destroy_cluster))
                 .route(web::patch().to(handlers::clusters::update_cluster))
         )
+
+        .service(   
+            web::resource("/cluster/{cluster_id}/assign/{device_id}") 
+            .route(web::get().to(handlers::device_cluster_pairs::assign_device_to_cluster)) // Define a cluster relationship
+        )
+
     )
     .bind("0.0.0.0:8080").unwrap()
     .run();
