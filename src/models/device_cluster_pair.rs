@@ -1,5 +1,6 @@
 use crate::schema::device_to_cluster;
 use crate::models::device::Device;
+use actix_web::{HttpRequest, HttpResponse };
 
 use diesel::PgConnection;
 
@@ -12,7 +13,10 @@ pub struct DeviceClusterPair {
     pub device_id: i32,
     pub cluster_id: i32
 }
-
+#[derive(Serialize, Deserialize)]
+pub struct NumDeletedReturn {
+    pairs_deleted: i32
+}
 #[derive(Insertable, Deserialize, AsChangeset)]
 #[table_name="device_to_cluster"]
 pub struct NewDeviceClusterPair {
@@ -60,6 +64,19 @@ impl DeviceClusterPair {
         device_to_cluster::table.find(id).first(connection)
     }
 
+
+    pub fn delete_by_pair(pair: &NewDeviceClusterPair, connection: &PgConnection) -> Result<NumDeletedReturn, diesel::result::Error> {
+        use diesel::QueryDsl;
+        use diesel::RunQueryDsl;
+        use crate::diesel::ExpressionMethods;
+        use std::convert::TryInto;
+
+        let  num_affected = diesel::delete(device_to_cluster::table.filter(device_to_cluster::device_id.eq(pair.device_id.unwrap()))
+                                        .filter(device_to_cluster::cluster_id.eq(pair.cluster_id.unwrap())))
+                                        .execute(connection).unwrap();
+
+        return Ok(NumDeletedReturn{pairs_deleted: num_affected.try_into().unwrap()})
+    }
 
     pub fn destroy(id: &i32, connection: &PgConnection) -> Result<(), diesel::result::Error> {
         use diesel::QueryDsl;

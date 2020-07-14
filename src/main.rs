@@ -69,6 +69,10 @@ fn main() {
             web::resource("/cluster/{cluster_id}/assign/{device_id}") 
             .route(web::get().to(handlers::device_cluster_pairs::assign_device_to_cluster)) // Define a cluster relationship
         )
+        .service(   
+            web::resource("/cluster/{cluster_id}/remove/{device_id}") 
+            .route(web::get().to(handlers::device_cluster_pairs::remove_device_from_cluster)) // Define a cluster relationship
+        )
 
     )
     .bind("0.0.0.0:8080").unwrap()
