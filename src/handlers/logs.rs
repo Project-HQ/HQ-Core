@@ -47,7 +47,6 @@ pub async fn get_device_logs(device_id: web::Path<i32>, pool: web::Data<PgPool>)
         })
 }
 
-
 pub async fn destroy_log(id: web::Path<i32>, pool: web::Data<PgPool>) -> Result<HttpResponse, HttpResponse> {
     let pg_pool = pg_pool_handler(pool).await?;
     Log::destroy(&id, &pg_pool)

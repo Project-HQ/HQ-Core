@@ -12,8 +12,8 @@ pub struct DeviceClusterPair {
     pub cluster_id: i32
 }
 #[derive(Serialize, Deserialize)]
-pub struct NumDeletedReturn {
-    pairs_deleted: i32
+pub struct DeletedPairReturn {
+    success: bool
 }
 #[derive(Insertable, Deserialize, AsChangeset)]
 #[table_name="device_to_cluster"]
@@ -40,18 +40,16 @@ impl DeviceClusterPair {
         device_to_cluster::table.find(id).first(connection)
     }
 
-
-    pub fn delete_by_pair(pair: &NewDeviceClusterPair, connection: &PgConnection) -> Result<NumDeletedReturn, diesel::result::Error> {
+    pub fn delete_by_pair(pair: &NewDeviceClusterPair, connection: &PgConnection) -> Result<DeletedPairReturn, diesel::result::Error> {
         use diesel::QueryDsl;
         use diesel::RunQueryDsl;
         use crate::diesel::ExpressionMethods;
-        use std::convert::TryInto;
 
         let  num_affected = diesel::delete(device_to_cluster::table.filter(device_to_cluster::device_id.eq(pair.device_id.unwrap()))
                                         .filter(device_to_cluster::cluster_id.eq(pair.cluster_id.unwrap())))
                                         .execute(connection).unwrap();
 
-        return Ok(NumDeletedReturn{pairs_deleted: num_affected.try_into().unwrap()})
+        return Ok(DeletedPairReturn{success: num_affected > 0})
     }
 
     pub fn find_device_relationships(c_id: &i32, connection: &PgConnection) -> Result<DeviceList, diesel::result::Error> {
