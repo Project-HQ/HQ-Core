@@ -1,12 +1,9 @@
 use crate::schema::device_to_cluster;
 use crate::models::device::{Device, DeviceList};
 use crate::models::device;
-use actix_web::{HttpRequest, HttpResponse };
 
 use diesel::PgConnection;
 
-#[derive(Serialize, Deserialize)]
-pub struct DeviceClusterPairList(pub Vec<Device>);
 
 #[derive(Queryable, Serialize, Deserialize)]
 pub struct DeviceClusterPair {
@@ -23,28 +20,6 @@ pub struct NumDeletedReturn {
 pub struct NewDeviceClusterPair {
     pub device_id: Option<i32>,
     pub cluster_id: Option<i32>
-}
-
-impl DeviceClusterPairList {
-    pub fn list(id: &i32, connection: &PgConnection) -> Self {
-        // use diesel::RunQueryDsl;
-        // use diesel::QueryDsl;
-        // use crate::schema::device_to_cluster::dsl::*;
-        
-        // // let relationships = 
-        // //     device_to_cluster.filter(device_to_cluster::table::cluster_id.eq(id))
-        // //         .load::<DeviceClusterPair>(connection)
-        // //         .expect("Error loading devices");
-
-        // println!("Displaying {} related device id's of cluster", results.len());
-        // for rel in relationships {
-        //     println!("{}", rel.device_id);
-
-        // }
-        // // let result = DeviceClusterPairList::new(); 
-        // // DeviceClusterPairList(result)
-        return DeviceClusterPairList(Vec::new());
-    }
 }
 
 impl NewDeviceClusterPair {
@@ -84,7 +59,7 @@ impl DeviceClusterPair {
         use diesel::RunQueryDsl;
         use crate::diesel::ExpressionMethods;
 
-        
+
         let device_pairs: Vec<DeviceClusterPair> = device_to_cluster::table.filter(device_to_cluster::cluster_id.eq(c_id)).get_results(connection).unwrap();
 
         let mut devices: Vec<Device>= Vec::new();
