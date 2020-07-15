@@ -1,5 +1,6 @@
 use crate::schema::device_to_cluster;
-use crate::models::device::Device;
+use crate::models::device::{Device, DeviceList};
+use crate::models::device;
 use actix_web::{HttpRequest, HttpResponse };
 
 use diesel::PgConnection;
@@ -76,6 +77,23 @@ impl DeviceClusterPair {
                                         .execute(connection).unwrap();
 
         return Ok(NumDeletedReturn{pairs_deleted: num_affected.try_into().unwrap()})
+    }
+
+    pub fn find_device_relationships(c_id: &i32, connection: &PgConnection) -> Result<DeviceList, diesel::result::Error> {
+        use diesel::QueryDsl;
+        use diesel::RunQueryDsl;
+        use crate::diesel::ExpressionMethods;
+
+        
+        let device_pairs: Vec<DeviceClusterPair> = device_to_cluster::table.filter(device_to_cluster::cluster_id.eq(c_id)).get_results(connection).unwrap();
+
+        let mut devices: Vec<Device>= Vec::new();
+
+        for device_pair in device_pairs{
+            let device: Device  = Device::find(&device_pair.device_id, &connection).unwrap();
+            devices.push(device);
+        }
+        Ok(device::DeviceList(devices))
     }
 
     pub fn destroy(id: &i32, connection: &PgConnection) -> Result<(), diesel::result::Error> {
