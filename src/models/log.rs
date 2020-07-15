@@ -64,6 +64,15 @@ impl Log {
         logs::table.find(id).first(connection)
     }
 
+    pub fn get_logs_by_device(d_id: &i32, connection: &PgConnection) -> Result<LogList, diesel::result::Error>{
+        use diesel::QueryDsl;
+        use diesel::RunQueryDsl;
+        use crate::diesel::ExpressionMethods;
+
+        let logs: Vec<Log> = logs::table.filter(logs::device_id.eq(d_id)).get_results(connection).unwrap();
+        Ok(LogList(logs))
+    }
+    
     pub fn destroy(id: &i32, connection: &PgConnection) -> Result<(), diesel::result::Error> {
         use diesel::QueryDsl;
         use diesel::RunQueryDsl;

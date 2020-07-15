@@ -44,7 +44,6 @@ pub async fn remove_device_from_cluster(pair: web::Path<(i32, i32)>, pool: web::
 
 pub async fn get_devices_from_cluster(c_id: web::Path<i32>, pool: web::Data<PgPool>) -> Result<HttpResponse, HttpResponse> {
     let pg_pool = pg_pool_handler(pool).await?;
-
     DeviceClusterPair::find_device_relationships(&c_id, &pg_pool)
                                     .map(|id| HttpResponse::Ok().json(id))
                                     .map_err(|e| {HttpResponse::InternalServerError().json(e.to_string())})

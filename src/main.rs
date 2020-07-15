@@ -22,9 +22,7 @@ use actix_web::{App, HttpServer, web};
 use db_connection::establish_connection;
 
 fn main() {
-
     let sys = actix::System::new("HQ_Core");
-
     HttpServer::new(
     || App::new()
         .data(establish_connection())
@@ -52,6 +50,10 @@ fn main() {
                 .route(web::get().to(handlers::logs::get_log)) // get a log entry
                 .route(web::delete().to(handlers::logs::destroy_log)) // delete a log
                 .route(web::patch().to(handlers::logs::update_log)) // update a log entry
+        )
+        .service(
+            web::resource("/device/{device_id}/logs")
+                .route(web::get().to(handlers::logs::get_device_logs)) // get a devices log entries
         )
         .service(
             web::resource("/clusters")

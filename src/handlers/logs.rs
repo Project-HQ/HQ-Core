@@ -37,6 +37,17 @@ pub async fn get_log(id: web::Path<i32>, pool: web::Data<PgPool>) -> Result<Http
         })
 }
 
+pub async fn get_device_logs(device_id: web::Path<i32>, pool: web::Data<PgPool>) -> Result<HttpResponse, HttpResponse> {
+    let pg_pool = pg_pool_handler(pool).await?;
+
+    Log::get_logs_by_device(&device_id, &pg_pool)
+        .map(|log| HttpResponse::Ok().json(log))
+        .map_err(|e| {
+            HttpResponse::InternalServerError().json(e.to_string())
+        })
+}
+
+
 pub async fn destroy_log(id: web::Path<i32>, pool: web::Data<PgPool>) -> Result<HttpResponse, HttpResponse> {
     let pg_pool = pg_pool_handler(pool).await?;
     Log::destroy(&id, &pg_pool)
