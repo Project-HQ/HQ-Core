@@ -35,12 +35,12 @@ fn main() {
         )
         .service(
             web::resource("/device/{id}")
-                .route(web::get().to(handlers::devices::show))
-                .route(web::delete().to(handlers::devices::destroy))
-                .route(web::patch().to(handlers::devices::update))
+                .route(web::get().to(handlers::devices::show))  // display a device's info
+                .route(web::delete().to(handlers::devices::destroy)) // delete a device
+                .route(web::patch().to(handlers::devices::update)) // update a device
         )
         .service(
-            web::resource("/").route(web::get().to(handlers::index::welcome_banner))
+            web::resource("/").route(web::get().to(handlers::index::welcome_banner)) // welcome banner
         )
         .service(
             web::resource("/logs")
@@ -49,9 +49,9 @@ fn main() {
         )
         .service(
             web::resource("/log/{id}")
-                .route(web::get().to(handlers::logs::get_log))
-                .route(web::delete().to(handlers::logs::destroy_log))
-                .route(web::patch().to(handlers::logs::update_log))
+                .route(web::get().to(handlers::logs::get_log)) // get a log entry
+                .route(web::delete().to(handlers::logs::destroy_log)) // delete a log
+                .route(web::patch().to(handlers::logs::update_log)) // update a log entry
         )
         .service(
             web::resource("/clusters")
@@ -60,20 +60,19 @@ fn main() {
         )
         .service(
             web::resource("/cluster/{id}")
-                .route(web::get().to(handlers::clusters::get_cluster))
-                .route(web::delete().to(handlers::clusters::destroy_cluster))
-                .route(web::patch().to(handlers::clusters::update_cluster))
+                .route(web::get().to(handlers::clusters::get_cluster)) // get a cluster's information
+                .route(web::delete().to(handlers::clusters::destroy_cluster)) // delete a cluster
+                .route(web::patch().to(handlers::clusters::update_cluster)) // update a cluster's information
         )
-
-        .service(   
+        .service(
             web::resource("/cluster/{cluster_id}/assign/{device_id}") 
             .route(web::get().to(handlers::device_cluster_pairs::assign_device_to_cluster)) // Define a cluster relationship
         )
-        .service(   
+        .service(
             web::resource("/cluster/{cluster_id}/remove/{device_id}") 
             .route(web::get().to(handlers::device_cluster_pairs::remove_device_from_cluster)) // Delete a cluster relationship
         )
-        .service(   
+        .service(
             web::resource("/cluster/{cluster_id}/devices") 
             .route(web::get().to(handlers::device_cluster_pairs::get_devices_from_cluster)) // Return all cluster relationships
         )
