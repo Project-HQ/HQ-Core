@@ -1,7 +1,7 @@
 [package]
 name = "hq-core"
 description = "Restful Postgres microservice"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Project_HQ <amusciano@gmail.com>"]
 license-file = "LICENSE"
 edition = "2018"
