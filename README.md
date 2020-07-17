@@ -24,6 +24,11 @@ If you've come across this repo, feel free to reach out and ask about the projec
 
 ## Dockerize It
 
+You will want to use rust-musl-builder to create a lightweight image with no dependencies. Once the image is built, run it:
+`docker run --env-file=./path/to/.env --name hq-core -p 8080:8080 hq-core`
+
 [Tutorial Here](https://blog.semicolonsoftware.de/building-minimal-docker-containers-for-rust-applications/)
-You will want to use rust-musl-builder to create a lightweight image with no dependencies. Once the image is built, run it like so:
-`docker run --env-file=./path/to/.env --rm --name hq-core -p 8080:8080 hq-core`
+
+## Documentation
+
+Check our [Postman](https://documenter.getpostman.com/view/11957802/T17J9SWE) for the API Docs.
